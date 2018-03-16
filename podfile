@@ -1,0 +1,5 @@
+platform:ios ,'10.0'
+target 'HCCF_下午茶计算' do
+pod 'IQKeyboardManager'
+pod 'SVProgressHUD'
+end
