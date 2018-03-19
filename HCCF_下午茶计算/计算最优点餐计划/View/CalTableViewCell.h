@@ -11,7 +11,10 @@
 
 @protocol CalCellDelegate <NSObject>
 
-- (void)cal_endEditTextField:(UITextField *)sender;
+- (void)cal_endEditFullTextField:(UITextField *)sender;
+
+- (void)cal_endEditReduceTextField:(UITextField *)sender;
+
 
 @end
 

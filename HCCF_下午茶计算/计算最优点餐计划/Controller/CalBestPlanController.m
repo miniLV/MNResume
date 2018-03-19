@@ -156,7 +156,7 @@ static CGFloat cellHeight = 50;
     
     UILabel *titleLabel = [[UILabel alloc]init];
     titleLabel.text = @"配送费(每单):";
-    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.textColor = [UIColor darkGrayColor];
     [postView addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(postView);
@@ -164,6 +164,7 @@ static CGFloat cellHeight = 50;
     }];
     
     UITextField *deliveryTextField = [[UITextField alloc]init];
+    deliveryTextField.textColor = [UIColor darkGrayColor];
     deliveryTextField.keyboardType = UIKeyboardTypeDecimalPad;
     [postView addSubview:deliveryTextField];
     [deliveryTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -177,7 +178,7 @@ static CGFloat cellHeight = 50;
     
     //postBtn
     UIButton *postPlanBtn = [[UIButton alloc]init];
-    [postPlanBtn setBackgroundImage:[UIImage imageNamed:@"postPlan"] forState:UIControlStateNormal];
+    [postPlanBtn setBackgroundImage:[UIImage imageNamed:@"post"] forState:UIControlStateNormal];
     [postView addSubview:postPlanBtn];
     [postPlanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(postView);
@@ -192,7 +193,19 @@ static CGFloat cellHeight = 50;
     
     if (_deliveryTextField.text.length == 0) {
         [SVProgressHUD showErrorWithStatus:@"请输入配送费"];
+        [SVProgressHUD dismissWithDelay:3.5];
         return;
+    }
+    
+    for (CalModel *model in _datas) {
+        
+        BOOL q1 = model.fullValue.length == 0;
+        BOOL q2 = model.reduceValue.length == 0;
+        if ( q1 || q2) {
+            [SVProgressHUD showErrorWithStatus:@"请输入完整的满减情况"];
+            [SVProgressHUD dismissWithDelay:3.5];
+            return;
+        }
     }
     
     NSLog(@"_datas = %@",_datas);
@@ -234,26 +247,43 @@ static CGFloat cellHeight = 50;
 }
 
 #pragma mark - privateDelegate
-- (void)cal_endEditTextField:(UITextField *)sender{
+- (void)cal_endEditFullTextField:(UITextField *)sender{
     
     NSInteger row = sender.tag / 100;
-    NSInteger tag = sender.tag % 100;
     
     CalModel *model = _datas[row];
-    switch (tag) {
-        case 0:
-        {
-            model.fullValue = sender.text;
-            break;
-        }
-        case 1:{
-            model.reduceValue = sender.text;
-            break;
-        }
-    }
-    
-    [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    model.fullValue = sender.text;
+    [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
+
+- (void)cal_endEditReduceTextField:(UITextField *)sender{
+    
+    NSInteger row = sender.tag / 100;
+    
+    CalModel *model = _datas[row];
+    model.reduceValue = sender.text;
+    [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+//- (void)cal_endEditTextField:(UITextField *)sender{
+//
+//    NSInteger row = sender.tag / 100;
+//    NSInteger tag = sender.tag % 100;
+//
+//    CalModel *model = _datas[row];
+//    switch (tag) {
+//        case 0:
+//        {
+//            model.fullValue = sender.text;
+//            break;
+//        }
+//        case 1:{
+//            model.reduceValue = sender.text;
+//            break;
+//        }
+//    }
+//    [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
