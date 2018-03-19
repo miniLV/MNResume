@@ -53,24 +53,8 @@
 
 - (void)EndEditTextF:(UITextField *)sender{
 
-    NSInteger tag = sender.tag % 100;
-    switch (tag) {
-        case 0:
-        {
-            [_delegate respondsToSelector:@selector(cal_endEditFullTextField:)] ?
-            [_delegate cal_endEditFullTextField:sender] : nil;
-            break;
-        }
-        case 1:{
-            [_delegate respondsToSelector:@selector(cal_endEditReduceTextField:)] ?
-            [_delegate cal_endEditReduceTextField:sender] : nil;
-            break;
-        }
-        default:
-            break;
-    }
-    
-
+    [_delegate respondsToSelector:@selector(cal_endEditTextField:)] ?
+    [_delegate cal_endEditTextField:sender] : nil;
 }
 
 @end

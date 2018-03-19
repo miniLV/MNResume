@@ -25,6 +25,9 @@ CalCellDelegate
     NSArray *_datas;
     //配送费textField
     UITextField *_deliveryTextField;
+    
+    //输入参与计算计划的textField
+    UITextField *_inputTextField;
 }
 
 #define screenW [UIScreen mainScreen].bounds.size.width
@@ -56,6 +59,8 @@ static CGFloat cellHeight = 50;
     [self createTitleLabels];
     
     [self createPostView];
+    
+    [self createBottomView];
 }
 
 - (void)baseView{
@@ -69,6 +74,7 @@ static CGFloat cellHeight = 50;
     
     //2.手动创建返回按钮
     UIButton *returnBtn = [[UIButton alloc]init];
+    [self.view addSubview:returnBtn];
     returnBtn.frame = CGRectMake(20, 20, 25, 25);
     [returnBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(clickReturnBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -146,7 +152,6 @@ static CGFloat cellHeight = 50;
 - (void)createPostView{
     
     UIView *postView = [[UIView alloc]init];
-//    postView.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:postView];
     [postView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_tableView.mas_bottom);
@@ -189,6 +194,58 @@ static CGFloat cellHeight = 50;
     
 }
 
+- (void)createBottomView{
+    
+    UIView *bottomView = [[UIView alloc]init];
+//    bottomView.backgroundColor = [UIColor orangeColor];
+    [self.view addSubview:bottomView];
+    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(0);
+        make.bottom.mas_equalTo(-30);
+        make.height.mas_equalTo(75);
+    }];
+    
+    //1.clearBtn
+    UIButton *clearBtn = [[UIButton alloc]init];
+    [clearBtn setBackgroundImage:[UIImage imageNamed:@"clear"] forState:UIControlStateNormal];
+    [bottomView addSubview:clearBtn];
+    [clearBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(bottomView);
+        make.left.mas_equalTo(20);
+        make.width.height.mas_equalTo(20);
+    }];
+    [clearBtn addTarget:self action:@selector(clickClearBtn) forControlEvents:UIControlEventTouchUpInside];
+    
+    //2.inputTextField
+    UITextField *inputTextField = [[UITextField alloc]init];
+    inputTextField.backgroundColor = [UIColor whiteColor];
+    inputTextField.placeholder = @"请输入单笔金额";
+    inputTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    inputTextField.layer.cornerRadius = 8;
+    [inputTextField.layer masksToBounds];
+    [bottomView addSubview:inputTextField];
+    [inputTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(bottomView);
+        make.left.mas_equalTo(clearBtn.mas_right).mas_equalTo(30);
+        make.right.mas_equalTo(-100);
+        make.height.mas_equalTo(30);
+    }];
+    [inputTextField addTarget:self action:@selector(endEditInputTextField:) forControlEvents:UIControlEventEditingDidEnd];
+    _inputTextField = inputTextField;
+    
+    //3.addInputBtn
+    UIButton *addInputBtn = [[UIButton alloc]init];
+    [addInputBtn setBackgroundImage:[UIImage imageNamed:@"post1"] forState:UIControlStateNormal];
+    [bottomView addSubview:addInputBtn];
+    [addInputBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(bottomView);
+        make.right.mas_equalTo(-20);
+        make.width.height.mas_equalTo(25);
+    }];
+    [addInputBtn addTarget:self action:@selector(clickAddInputBtn) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+
 - (void)clickPostPlanBtn{
     
     if (_deliveryTextField.text.length == 0) {
@@ -212,9 +269,27 @@ static CGFloat cellHeight = 50;
     
 }
 
+- (void)clickClearBtn{
+    
+    NSLog(@"clickClearBtn");
+}
+
+- (void)endEditInputTextField:(UITextField *)sender{
+    
+    NSLog(@"endEditInputTextField = %@",sender.text);
+    _inputTextField.text = sender.text;
+}
+
 - (void)endEditDeliveryTextField:(UITextField *)sender{
     
     _deliveryTextField.text = sender.text;
+}
+
+- (void)clickAddInputBtn{
+    
+    NSLog(@"clickAddInputBtn = %@",_inputTextField.text);
+    
+    
 }
 
 - (void)clickAddBtn{
@@ -247,43 +322,26 @@ static CGFloat cellHeight = 50;
 }
 
 #pragma mark - privateDelegate
-- (void)cal_endEditFullTextField:(UITextField *)sender{
-    
+
+- (void)cal_endEditTextField:(UITextField *)sender{
+
     NSInteger row = sender.tag / 100;
-    
+    NSInteger tag = sender.tag % 100;
+
     CalModel *model = _datas[row];
-    model.fullValue = sender.text;
+    switch (tag) {
+        case 0:
+        {
+            model.fullValue = sender.text;
+            break;
+        }
+        case 1:{
+            model.reduceValue = sender.text;
+            break;
+        }
+    }
     [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
-
-- (void)cal_endEditReduceTextField:(UITextField *)sender{
-    
-    NSInteger row = sender.tag / 100;
-    
-    CalModel *model = _datas[row];
-    model.reduceValue = sender.text;
-    [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-}
-
-//- (void)cal_endEditTextField:(UITextField *)sender{
-//
-//    NSInteger row = sender.tag / 100;
-//    NSInteger tag = sender.tag % 100;
-//
-//    CalModel *model = _datas[row];
-//    switch (tag) {
-//        case 0:
-//        {
-//            model.fullValue = sender.text;
-//            break;
-//        }
-//        case 1:{
-//            model.reduceValue = sender.text;
-//            break;
-//        }
-//    }
-//    [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-//}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
