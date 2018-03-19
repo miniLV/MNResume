@@ -7,10 +7,9 @@
 //
 
 #import "ViewController.h"
-
 #import <SVProgressHUD.h>
-
 #import "UserPayViewController.h"
+#import "CalBestPlanController.h"
 
 @interface ViewController ()<UITextFieldDelegate>
 
@@ -21,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *backImageView;
 
 //中间内容image
-@property (weak, nonatomic) IBOutlet UIImageView *centerImageView;
+@property (weak, nonatomic) IBOutlet UIButton *centerButton;
 
 
 //底部imageView
@@ -75,11 +74,11 @@
     
     
     //上面内容
-    _centerImageView.image = [UIImage imageNamed:@"centerImag"];
-    _centerImageView.layer.cornerRadius = 8;
-    _centerImageView.layer.masksToBounds = YES;
-    _centerImageView.userInteractionEnabled = YES;
-    
+    [_centerButton setBackgroundImage:[UIImage imageNamed:@"centerImag"] forState:UIControlStateNormal];
+    _centerButton.layer.cornerRadius = 8;
+    _centerButton.layer.masksToBounds = YES;
+    _centerButton.userInteractionEnabled = YES;
+    [_centerButton addTarget:self action:@selector(clickCenterBtn) forControlEvents:UIControlEventTouchUpInside];
     
     //底部iv
     _bottomImageView.image = [UIImage imageNamed:@"bottomBackImg"];
@@ -122,6 +121,13 @@
     
 }
 
+- (void)clickCenterBtn{
+    
+    CalBestPlanController *calVC = [[CalBestPlanController alloc]init];
+    
+    [self.navigationController pushViewController:calVC animated:YES];
+    
+}
 
 #pragma mark - 提交这个人付的钱
 - (IBAction)clickPostMoney:(id)sender {

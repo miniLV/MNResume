@@ -101,7 +101,7 @@ CGFloat cellHeight = 80;
     _tableView.delegate = self;
     
     
-    _tableView.backgroundColor = [UIColor orangeColor];
+    _tableView.backgroundColor = [UIColor lightGrayColor];
     
     [_backImgView addSubview:_tableView];
     

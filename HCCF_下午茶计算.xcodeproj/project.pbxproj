@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		147D1A3D1FFCCFAA0060F05F /* RedEnvelopeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 147D1A3C1FFCCFAA0060F05F /* RedEnvelopeViewController.m */; };
+		149B4AAB205B9AA100173C02 /* CalBestPlanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 149B4AA6205B9AA100173C02 /* CalBestPlanController.m */; };
+		149B4AAC205B9AA100173C02 /* CalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 149B4AA9205B9AA100173C02 /* CalModel.m */; };
+		149B4AB0205B9BF800173C02 /* CalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 149B4AAE205B9BF800173C02 /* CalTableViewCell.m */; };
+		149B4AB1205B9BF800173C02 /* CalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 149B4AAF205B9BF800173C02 /* CalTableViewCell.xib */; };
 		4D09341B1F0E378300993C26 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D09341A1F0E378300993C26 /* main.m */; };
 		4D09341E1F0E378300993C26 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D09341D1F0E378300993C26 /* AppDelegate.m */; };
 		4D0934211F0E378300993C26 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0934201F0E378300993C26 /* ViewController.m */; };
@@ -38,6 +42,13 @@
 /* Begin PBXFileReference section */
 		147D1A3B1FFCCFAA0060F05F /* RedEnvelopeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RedEnvelopeViewController.h; sourceTree = "<group>"; };
 		147D1A3C1FFCCFAA0060F05F /* RedEnvelopeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RedEnvelopeViewController.m; sourceTree = "<group>"; };
+		149B4AA5205B9AA100173C02 /* CalBestPlanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalBestPlanController.h; sourceTree = "<group>"; };
+		149B4AA6205B9AA100173C02 /* CalBestPlanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalBestPlanController.m; sourceTree = "<group>"; };
+		149B4AA8205B9AA100173C02 /* CalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalModel.h; sourceTree = "<group>"; };
+		149B4AA9205B9AA100173C02 /* CalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalModel.m; sourceTree = "<group>"; };
+		149B4AAD205B9BF800173C02 /* CalTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalTableViewCell.h; sourceTree = "<group>"; };
+		149B4AAE205B9BF800173C02 /* CalTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalTableViewCell.m; sourceTree = "<group>"; };
+		149B4AAF205B9BF800173C02 /* CalTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalTableViewCell.xib; sourceTree = "<group>"; };
 		190FD8F06CF9FB80974D07FE /* Pods-HCCF_下午茶计算.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HCCF_下午茶计算.release.xcconfig"; path = "Pods/Target Support Files/Pods-HCCF_下午茶计算/Pods-HCCF_下午茶计算.release.xcconfig"; sourceTree = "<group>"; };
 		4D0934161F0E378300993C26 /* HCCF_下午茶计算.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HCCF_下午茶计算.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D09341A1F0E378300993C26 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -86,6 +97,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		149B4AA3205B9AA100173C02 /* 计算最优点餐计划 */ = {
+			isa = PBXGroup;
+			children = (
+				149B4AA4205B9AA100173C02 /* Controller */,
+				149B4AA7205B9AA100173C02 /* Model */,
+				149B4AAA205B9AA100173C02 /* View */,
+			);
+			path = "计算最优点餐计划";
+			sourceTree = "<group>";
+		};
+		149B4AA4205B9AA100173C02 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				149B4AA5205B9AA100173C02 /* CalBestPlanController.h */,
+				149B4AA6205B9AA100173C02 /* CalBestPlanController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		149B4AA7205B9AA100173C02 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				149B4AA8205B9AA100173C02 /* CalModel.h */,
+				149B4AA9205B9AA100173C02 /* CalModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		149B4AAA205B9AA100173C02 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				149B4AAD205B9BF800173C02 /* CalTableViewCell.h */,
+				149B4AAE205B9BF800173C02 /* CalTableViewCell.m */,
+				149B4AAF205B9BF800173C02 /* CalTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		4D09340D1F0E378300993C26 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +158,7 @@
 		4D0934181F0E378300993C26 /* HCCF_下午茶计算 */ = {
 			isa = PBXGroup;
 			children = (
+				149B4AA3205B9AA100173C02 /* 计算最优点餐计划 */,
 				4D09341C1F0E378300993C26 /* AppDelegate.h */,
 				4D09341D1F0E378300993C26 /* AppDelegate.m */,
 				4D09341F1F0E378300993C26 /* ViewController.h */,
@@ -258,6 +308,7 @@
 			files = (
 				4D8599791F14CF080056FD9C /* UserListTableViewCell.xib in Resources */,
 				4D09342C1F0E378300993C26 /* LaunchScreen.storyboard in Resources */,
+				149B4AB1205B9BF800173C02 /* CalTableViewCell.xib in Resources */,
 				4D0934291F0E378300993C26 /* Assets.xcassets in Resources */,
 				4D8599811F14D9500056FD9C /* ShowPayImageViewController.xib in Resources */,
 				4D0934241F0E378300993C26 /* Main.storyboard in Resources */,
@@ -326,11 +377,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				149B4AB0205B9BF800173C02 /* CalTableViewCell.m in Sources */,
 				4D0934211F0E378300993C26 /* ViewController.m in Sources */,
+				149B4AAB205B9AA100173C02 /* CalBestPlanController.m in Sources */,
 				4D85997C1F14D6300056FD9C /* UIImage+Circle.m in Sources */,
 				4D8599741F14C6F60056FD9C /* UserPayViewController.m in Sources */,
 				4D0934271F0E378300993C26 /* HCCF______.xcdatamodeld in Sources */,
 				147D1A3D1FFCCFAA0060F05F /* RedEnvelopeViewController.m in Sources */,
+				149B4AAC205B9AA100173C02 /* CalModel.m in Sources */,
 				4D8599801F14D9500056FD9C /* ShowPayImageViewController.m in Sources */,
 				4D09341E1F0E378300993C26 /* AppDelegate.m in Sources */,
 				4D8599781F14CF080056FD9C /* UserListTableViewCell.m in Sources */,
