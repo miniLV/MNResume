@@ -28,6 +28,9 @@ CalCellDelegate
     
     //输入参与计算计划的textField
     UITextField *_inputTextField;
+    
+    //存储输入金额的数组
+    NSMutableArray *_saveInputArrayM;
 }
 
 #define screenW [UIScreen mainScreen].bounds.size.width
@@ -47,6 +50,7 @@ static CGFloat cellHeight = 50;
 - (void)baseSetting{
     self.title = @"隐藏彩蛋~";
     self.view.backgroundColor = [UIColor whiteColor];
+    _saveInputArrayM = [NSMutableArray array];
 }
 
 #pragma mark - setupUI
@@ -61,6 +65,7 @@ static CGFloat cellHeight = 50;
     [self createPostView];
     
     [self createBottomView];
+    
 }
 
 - (void)baseView{
@@ -78,6 +83,18 @@ static CGFloat cellHeight = 50;
     returnBtn.frame = CGRectMake(20, 20, 25, 25);
     [returnBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(clickReturnBtn) forControlEvents:UIControlEventTouchUpInside];
+    
+    //3.最终人工智能计算的按钮
+    UIButton *rightBtn = [[UIButton alloc]init];
+    [self.view addSubview:rightBtn];
+    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(-20);
+        make.centerX.mas_equalTo(self.view);
+        make.width.height.mas_equalTo(25);
+    }];
+    [rightBtn setBackgroundImage:[UIImage imageNamed:@"计算器"] forState:UIControlStateNormal];
+    [rightBtn addTarget:self action:@selector(clickAllCalBtn) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)createTableView{
@@ -197,7 +214,6 @@ static CGFloat cellHeight = 50;
 - (void)createBottomView{
     
     UIView *bottomView = [[UIView alloc]init];
-//    bottomView.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:bottomView];
     [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
@@ -222,6 +238,8 @@ static CGFloat cellHeight = 50;
     inputTextField.placeholder = @"请输入单笔金额";
     inputTextField.keyboardType = UIKeyboardTypeDecimalPad;
     inputTextField.layer.cornerRadius = 8;
+    inputTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
+    inputTextField.leftViewMode = UITextFieldViewModeAlways;
     [inputTextField.layer masksToBounds];
     [bottomView addSubview:inputTextField];
     [inputTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -271,7 +289,9 @@ static CGFloat cellHeight = 50;
 
 - (void)clickClearBtn{
     
-    NSLog(@"clickClearBtn");
+//    NSLog(@"clickClearBtn");
+    [_saveInputArrayM removeAllObjects];
+    
 }
 
 - (void)endEditInputTextField:(UITextField *)sender{
@@ -287,8 +307,16 @@ static CGFloat cellHeight = 50;
 
 - (void)clickAddInputBtn{
     
-    NSLog(@"clickAddInputBtn = %@",_inputTextField.text);
+    if (_inputTextField.text.length == 0 ) {
+        
+        [SVProgressHUD showErrorWithStatus:@"金额不能为空老哥~"];
+        [SVProgressHUD dismissWithDelay:3];
+        return;
+    }
     
+    NSLog(@"clickAddInputBtn = %@",_inputTextField.text);
+    [_saveInputArrayM addObject:_inputTextField.text];
+    _inputTextField.text = @"";
     
 }
 
@@ -312,6 +340,12 @@ static CGFloat cellHeight = 50;
         }];
     }
 }
+
+- (void)clickAllCalBtn{
+    
+    NSLog(@"clickAllCalBtn");
+}
+
 
 #pragma mark - loadDatas
 - (void)loadDatas{
