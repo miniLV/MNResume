@@ -343,6 +343,49 @@ static CGFloat cellHeight = 50;
 
 - (void)clickAllCalBtn{
     
+    //1.所有满减情况 - datas
+    //优惠比例
+    CGFloat ratio = 0.0;
+    NSMutableArray *arrayM = [NSMutableArray arrayWithCapacity:_datas.count];
+    for (int i = 0 ; i < _datas.count; i ++) {
+        
+        CalModel *model = _datas[i];
+        
+        /**
+         比例计算：（满 - 减） = 实际付
+                  实际付 / 满 = 实际付比例（比例越低越赚）
+                  每单都有配送费 - 实际付还要+配送费
+         */
+        CGFloat fullMoney = model.fullValue.floatValue;
+        CGFloat reduceMoney = model.reduceValue.floatValue;
+        CGFloat eliveryMoney = _deliveryTextField.text.floatValue;
+        
+        CGFloat payMoney = fullMoney - reduceMoney + eliveryMoney;
+        ratio = payMoney / fullMoney;
+        
+        [arrayM addObject:[NSString stringWithFormat:@"%.2f",ratio]];
+    }
+    
+    NSLog(@"arrayM = %@",arrayM);
+    
+    //倒序排序
+    
+    [arrayM sortUsingComparator:^NSComparisonResult(id _Nonnull obj1, id _Nonnull obj2)
+    {
+        //此处的规则含义为：若前一元素比后一元素小，则返回降序（即后一元素在前，为从大到小排列）
+        if ([obj1 integerValue] > [obj2 integerValue])
+        {
+            return NSOrderedDescending;
+        }
+        else
+        {
+            return NSOrderedAscending;
+        }
+    }];
+    
+      NSLog(@"排序完-arrayM = %@",arrayM);
+    
+    
     NSLog(@"clickAllCalBtn");
 }
 
@@ -374,7 +417,6 @@ static CGFloat cellHeight = 50;
             break;
         }
     }
-    [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
